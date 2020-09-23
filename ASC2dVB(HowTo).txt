@@ -1,0 +1,217 @@
+How to create dVB files
+-----------------------
+
+The objects were created in 3DStudio 2.0 and save on a ASC format 
+(there are many programs of raytracing  that supports ASC format)
+On this release of 3DStudio the format of ASC files its like somthing 
+this:
+
+
+
+Ambient light color: Red=0.3 Green=0.3 Blue=0.3
+
+Named object: "Object01"
+Tri-mesh, Vertices: 8     Faces: 12
+Vertex list:
+Vertex 0:  X: -111.557793     Y: -109.514214     Z: 111.073013
+Vertex 1:  X: 99.49749     Y: -109.514214     Z: 111.073013
+Vertex 2:  X: 99.49749     Y: 97.674843     Z: 111.073013
+Vertex 3:  X: -111.557793     Y: 97.674843     Z: 111.073013
+Vertex 4:  X: -111.557793     Y: -109.514214     Z: -103.499863
+Vertex 5:  X: 99.49749     Y: -109.514214     Z: -103.499863
+Vertex 6:  X: 99.49749     Y: 97.674843     Z: -103.499863
+Vertex 7:  X: -111.557793     Y: 97.674843     Z: -103.499863
+Face list:
+Face 0:    A:0 B:1 C:2 AB:1 BC:1 CA:0
+Face 1:    A:0 B:2 C:3 AB:0 BC:1 CA:1
+Face 2:    A:0 B:4 C:5 AB:1 BC:1 CA:0
+Face 3:    A:0 B:5 C:1 AB:0 BC:1 CA:1
+Face 4:    A:1 B:5 C:6 AB:1 BC:1 CA:0
+Face 5:    A:1 B:6 C:2 AB:0 BC:1 CA:1
+Face 6:    A:2 B:6 C:7 AB:1 BC:1 CA:0
+Face 7:    A:2 B:7 C:3 AB:0 BC:1 CA:1
+Face 8:    A:3 B:7 C:4 AB:1 BC:1 CA:0
+Face 9:    A:3 B:4 C:0 AB:0 BC:1 CA:1
+Face 10:    A:4 B:7 C:6 AB:1 BC:1 CA:0
+Face 11:    A:4 B:6 C:5 AB:0 BC:1 CA:1
+
+
+
+
+Note: If the Mesh is too big maybe put the text Page x onto Vertex and
+Face list. Remove this lines
+
+
+Vertex List represents 3D coordinates of one point on a 3D space (coord X, Y and Z)
+A Face its a triangle (most basic 3D geometrical figure) formed by 3 points
+The points on a Face are representd by A, B and C.
+
+In the example above, the points that formed Face 0 are:
+The point 0, the point 1 and the point 2
+
+Face 1 are composed by points 0, 2 and 3
+
+The AB, BC and CA values represents if the segment its visible or no (1 = visible 
+and 0 = non visible)
+
+AB represents the segment between point "A" and "B", 
+BC between point "B" and "C" and finally CA 
+between points "C" and "A" :
+
+
+Look this:
+	       (1,1)    (10,1)
+		 --- 10 ---
+		 
+                 H        I
+                 x--------x     |  (10,1)
+		 |\       |	|
+                 | \Face 0|	|
+		 |  \	  |	|
+		 |   \    |	|
+		 |    \   |	20
+                 |     \  |	|
+		 |Face 1\ |	|
+		 |       \|	|
+		 x--------x	|  (20,10)
+                 K        J
+
+Each point of the square (H,I,J and K) has x,y,z coordinates:
+in this example, supose the same Z , for exemple Z=0
+
+Vertex 0: X:1  Y:1  Z:0		<----- H
+Vertex 1: X:10 Y:1  Z:0		<----- I
+Vertex 2: X:10 Y:20 Z:0         <----- J
+Vertex 3: X:1  Y:20 Z:0         <----- K
+
+Face 0: A:0  B:1  C:2  AB:1  BC:1  CA:0
+Face 1: A:0  B:2  C:3  AB:0  BC:1  CA:1
+
+As you can see, when we are rendering the mesh, when AB, or BC, or CA is 0, we ONLY draw
+the segments that have the value 1, so the render look this:
+
+
+                 x--------x     
+		 |        |	
+                 |        |	
+		 |   	  |	
+		 |        |	
+		 |        |	
+                 |        |	
+		 |        |	
+		 |        |	
+		 x--------x	
+
+And this is more "real" with out the diagonal!
+
+Well, the dBV format.
+---------------------
+
+ASC File:
+
+Ambient light color: Red=0.3 Green=0.3 Blue=0.3
+
+Named object: "Object01"
+Tri-mesh, Vertices: 8     Faces: 12
+Vertex list:
+Vertex 0:  X: -111.557793     Y: -109.514214     Z: 111.073013
+Vertex 1:  X: 99.49749     Y: -109.514214     Z: 111.073013
+Vertex 2:  X: 99.49749     Y: 97.674843     Z: 111.073013
+Vertex 3:  X: -111.557793     Y: 97.674843     Z: 111.073013
+Vertex 4:  X: -111.557793     Y: -109.514214     Z: -103.499863
+Vertex 5:  X: 99.49749     Y: -109.514214     Z: -103.499863
+Vertex 6:  X: 99.49749     Y: 97.674843     Z: -103.499863
+Vertex 7:  X: -111.557793     Y: 97.674843     Z: -103.499863
+Face list:
+Face 0:    A:0 B:1 C:2 AB:1 BC:1 CA:0
+Face 1:    A:0 B:2 C:3 AB:0 BC:1 CA:1
+Face 2:    A:0 B:4 C:5 AB:1 BC:1 CA:0
+Face 3:    A:0 B:5 C:1 AB:0 BC:1 CA:1
+Face 4:    A:1 B:5 C:6 AB:1 BC:1 CA:0
+Face 5:    A:1 B:6 C:2 AB:0 BC:1 CA:1
+Face 6:    A:2 B:6 C:7 AB:1 BC:1 CA:0
+Face 7:    A:2 B:7 C:3 AB:0 BC:1 CA:1
+Face 8:    A:3 B:7 C:4 AB:1 BC:1 CA:0
+Face 9:    A:3 B:4 C:0 AB:0 BC:1 CA:1
+Face 10:    A:4 B:7 C:6 AB:1 BC:1 CA:0
+Face 11:    A:4 B:6 C:5 AB:0 BC:1 CA:1
+
+
+dVB File:
+
+'This File was created by me in order to export any ASC file from 3DStudio to Visual Basic
+'3DStoVB version 0.0.0001 alpha (xD, only a few lines Visual Basic program conversion)
+
+'Format POINTS
+'X!Y@Z        expample:-32!0@125   -->X(n)=-32, Y(n)=0, Z(n)=125
+'Format FACES
+'A!B@C        expample:2!10@25     -->A(n)=2, B(n)=10, C(n)=25
+
+CtteNumPoints=7
+CtteNumFaces=11
+ 
+--------------------------POINTS-------------------------
+-56!-55@56
+50!-55@56
+50!49@56
+-56!49@56
+-56!-55@-52
+50!-55@-52
+50!49@-52
+-56!49@-52
+--------------------------FACES--------------------------
+0!1@2*1%1(0
+0!2@3*0%1(1
+0!4@5*1%1(0
+0!5@1*0%1(1
+1!5@6*1%1(0
+1!6@2*0%1(1
+2!6@7*1%1(0
+2!7@3*0%1(1
+3!7@4*1%1(0
+3!4@0*0%1(1
+4!7@6*1%1(0
+4!6@5*0%1(1
+
+
+The points into dVB file have 1:2 scale, and rounded to INT numbers:
+
+ASC:
+Vertex list:
+Vertex 0:  X: -111.557793     Y: -109.514214     Z: 111.073013
+Vertex 1:  X: 99.49749     Y: -109.514214     Z: 111.073013
+
+dVB:
+--------------------------POINTS-------------------------
+-56!-55@56
+50!-55@56
+
+
+The face list:
+ASC:
+Face list:
+Face 0:    A:0 B:1 C:2 AB:1 BC:1 CA:0
+Face 1:    A:0 B:2 C:3 AB:0 BC:1 CA:1
+
+dVB:
+--------------------------FACES--------------------------
+0!1@2*1%1(0
+0!2@3*0%1(1
+
+Look the face list on dVB and compare with the ASC Face list:
+
+0!1@2*1%1(0
+^ ^ ^ ^ ^ ^
+| | | | | |
+| | | | | --- CA
+| | | | ----- BC
+| | | ------- AB
+| | --------- Vertex C	
+| ----------- Vertex B
+------------- Vertex A
+
+We use ! @ * % and ( chars to "split" correct values (in VB 5, there isn't a "good" split
+function :(
+
+
+Well, if you look ReadFileMesh Sub, i think that you understand this.
